@@ -23,7 +23,10 @@ args.seq = args.seq.upper()
 
 # Validate that the sequence only contains A, C, G, T, or U
 if re.search('^[ACGTU]+$', args.seq):
-    if re.search('T', args.seq):
+    # NEW: reject sequences mixing T and U (cannot be DNA nor RNA)
+    if re.search('T', args.seq) and re.search('U', args.seq):
+        print('The sequence is not DNA nor RNA')
+    elif re.search('T', args.seq):
         print ('The sequence is DNA')
     elif re.search('U', args.seq):
         print ('The sequence is RNA')
