@@ -21,9 +21,14 @@ args = parser.parse_args()
 # Normalize the sequence to uppercase to make classification and search case-insensitive
 args.seq = args.seq.upper() 
 
-# Validate that the sequence only contains A, C, G, T, or U
+# --- Classification ---
+# The input must contain only A/C/G/T/U. Then:
+# - CHANGE (from branch 'fix'): if both T and U appear, it's biologically inconsistent -> not DNA nor RNA
+# - If it contains T (and no U): DNA
+# - If it contains U (and no T): RNA
+# - If only A/C/G: it can be DNA or RNA (ambiguous)
 if re.search('^[ACGTU]+$', args.seq):
-    # NEW: reject sequences mixing T and U (cannot be DNA nor RNA)
+    # CHANGE: explicit rejection of mixed T and U
     if re.search('T', args.seq) and re.search('U', args.seq):
         print('The sequence is not DNA nor RNA')
     elif re.search('T', args.seq):
