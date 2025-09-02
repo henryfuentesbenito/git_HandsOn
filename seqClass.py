@@ -30,4 +30,4 @@ if args.motif:
     if re.search(args.motif, args.seq):
         print("FOUND (master)")
     else:
-        print("NOT FOUND")
+        print("NOT FOUND (motif)")
